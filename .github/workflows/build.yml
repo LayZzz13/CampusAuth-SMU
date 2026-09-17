@@ -1,0 +1,51 @@
+name: Build & Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+    branches:
+      - main
+      - master
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: 检出代码
+        uses: actions/checkout@v4
+
+      - name: 执行自动化编译脚本
+        shell: powershell
+        run: |
+          .\build.ps1
+
+      - name: 检查编译产物
+        shell: powershell
+        run: |
+          if (!(Test-Path "CampursAuth-SMU.exe") -or !(Test-Path "CampursAuth-SMU-Setup.exe")) {
+            Write-Error "编译产物不存在！"
+            exit 1
+          }
+          Get-Item CampursAuth-SMU.exe, CampursAuth-SMU-Setup.exe | Select-Object Name, Length
+
+      - name: 上传构建产物 (Artifacts)
+        uses: actions/upload-artifact@v4
+        with:
+          name: CampusAuth-SMU-Binaries
+          path: |
+            CampursAuth-SMU.exe
+            CampursAuth-SMU-Setup.exe
+
+      - name: 发布 GitHub Release
+        uses: softprops/action-gh-release@v2
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          files: |
+            CampursAuth-SMU.exe
+            CampursAuth-SMU-Setup.exe
+          generate_release_notes: true

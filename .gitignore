@@ -1,0 +1,23 @@
+# User Logs & Runtime Data
+auth.log
+*.log
+
+# Compiled Executables (Releases are published via GitHub Releases)
+CampursAuth-SMU.exe
+CampursAuth-SMU-Setup.exe
+payload.bin
+
+# Temporary & Build Cache
+*.obj
+*.pdb
+*.tmp
+.vs/
+bin/
+obj/
+
+# Windows Desktop Shortcuts
+*.lnk
+
+# Windows System Files
+Thumbs.db
+Desktop.ini

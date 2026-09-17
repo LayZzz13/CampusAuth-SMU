@@ -1,0 +1,11 @@
+{
+  "ServerIp": "211.83.241.102",
+  "AcId": "1",
+  "Username": "",
+  "Domain": "@telecom",
+  "Password": "",
+  "AutoStart": false,
+  "AutoExitOnSuccess": true,
+  "RetryCount": 10,
+  "RetryIntervalSec": 3
+}
